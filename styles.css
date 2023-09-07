@@ -1,0 +1,194 @@
+/* ------- Reset ------- */
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+  
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ol,
+  ul {
+    margin: 0;
+    padding: 0;
+    font-family: var(--ff-main);
+    font-weight: normal;
+  }
+  
+  ol,
+  ul {
+    list-style: none;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  a {
+    text-decoration: none;
+    color: rgb(27, 27, 27);
+  }
+
+/* ------- Main Styles ------- */
+
+body {
+    height: 100vh;
+    font-family: sans-serif;
+    font-weight: 600;
+    background-color: rgb(36, 36, 36);
+}
+
+.bg-gradient {
+    height: 80vh;
+    width: 70vw;
+
+    background-image: radial-gradient(
+        rgba(2290, 255, 255, 0.1) 5%,
+        transparent 5%
+    );
+
+    background-position: 0% 0%;
+    background-size: 12vmin 12vmin;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -99;
+}
+
+main {
+    height: 100%;
+    width: min(1500px, 70%);
+    margin: 0 auto;
+    padding: 0 100px;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    align-items: center;
+    justify-content: space-between;
+}
+.form-area, .user-list-area {
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgb(26, 26, 26);
+
+}
+.form-area {
+    width: 390px;
+    height: max-content;
+    position: relative;
+}
+
+form, .input-area, .label-area, article {
+    display: flex;
+}
+
+form {
+    flex-direction: row;
+    width: 100%;
+    gap: 30px;
+    justify-content: center;
+    padding: 30px;
+
+}
+
+.input-area, .label-area {
+    flex-direction: column;
+}
+
+.label-area {
+    justify-content: space-between;
+    height: 250px;
+    padding: 5px 0;
+    text-align: right;
+    color: white;
+}
+
+.input-area {
+    justify-content: space-between;
+    height: 250px;
+}
+
+input {
+    width: 150px;
+    height: 30px;
+    color: white;
+    background-color: rgb(62, 62, 62);
+    border-radius: 5px;
+    border: none;
+    padding: 2px 5px;
+}
+
+.submit-btn {
+    height: 40px;
+    width: 100%;
+    border: none;
+    color: white;
+    font-weight: 800;
+    font-size: 0.75rem;
+    background-color: rgb(55, 55, 55);
+}
+
+.submit-btn:active {
+    background-color: rgb(15, 15, 15);
+}
+
+.user-list-area {
+    height: 350px;
+    width: 250px;
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+li {
+    width: 100%;
+    height: 50px;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    justify-content: space-around;
+    background-color: rgb(16, 16, 16);
+    align-items: center;
+    padding: 0 25px;
+}
+
+#full-name {
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.age-container {
+    height: 25px;
+    width: 25px;
+    font-size: 0.5rem;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(58, 58, 58);
+
+}
