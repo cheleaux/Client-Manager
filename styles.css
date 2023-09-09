@@ -50,7 +50,7 @@ body {
     background-color: rgb(36, 36, 36);
 }
 
-.bg-gradient {
+.background-gradient {
     height: 80vh;
     width: 70vw;
 
@@ -166,12 +166,43 @@ li {
     height: 50px;
     border-radius: 7px;
     display: flex;
-    flex-direction: row;
     flex-shrink: 0;
+    flex-direction: row;
+}
+
+.user-li {
+    height: 100%;
+    width: 220px;
+    display:  flex;
+    /* flex-shrink: 0; */
+    flex-direction: row;
     justify-content: space-around;
     background-color: rgb(16, 16, 16);
     align-items: center;
     padding: 0 25px;
+}
+
+.user-li-delete {
+    height: 100%;
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: aliceblue;
+    background-color: rgb(21, 30, 39);
+}
+
+.user-li-delete:hover {
+    background-color: rgb(45, 63, 82);
+}
+
+.user-li-delete:active {
+    background-color: rgb(24, 10, 10);
+    color: rgb(21, 30, 39);
+}
+
+.user-li-delete > i {
+    margin: 0 auto;
 }
 
 #full-name {
@@ -183,7 +214,6 @@ li {
 .age-container {
     height: 25px;
     width: 25px;
-    font-size: 0.5rem;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -191,4 +221,8 @@ li {
     justify-content: center;
     background-color: rgb(58, 58, 58);
 
+}
+
+.age-container > h2 {
+    font-size: 0.7rem;
 }

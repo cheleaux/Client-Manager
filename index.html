@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="styles.css">
     <title>User Form</title>
 </head>
 <body>
 
-    <main class="content-wrapper">
+    <main id="app-container" class="content-wrapper">
         <article class="form-area">
             <form>
                 <div class="label-area">
@@ -31,16 +32,21 @@
         </article>
         <article class="user-list-area">
             <ul id="user-list">
-                <!-- <li class="user">
-                    <h1 id="full-name">Wallace Greene</h1>
-                    <div class="age-container">
-                        <h2 class="age">30</h2>
+                <li class="user">
+                    <div class="user-li">
+                        <h1 id="full-name">Wallace Greene</h1>
+                        <div class="age-container">
+                            <h2 class="age">30</h2>
+                        </div>
                     </div>
-                </li> -->
+                    <div class="user-li-delete">
+                        <i class="bi bi-trash3-fill"></i>
+                    </div>
+                </li>
             </ul>
         </article>
     </main>
-    <div class="bg-gradient"></div>
-    <script src="main.js"></script>
+    <div class="background-gradient"></div>
+    <script type="module" src="/js/main.js"></script>
 </body>
 </html>
