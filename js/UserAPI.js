@@ -16,8 +16,7 @@ export default class User {
 
     _passwordCheck() {
         const retypePassword = document.getElementById("re-password");
-        this.password === retypePassword.value ?
-         true : alert("Passwords don't match");
+        return this.password === retypePassword.value
     }
 
     static getAllUsers() {
@@ -34,7 +33,7 @@ export default class User {
     }
     
     static deleteUser() {
-
+        
     }
 }
 

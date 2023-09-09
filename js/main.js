@@ -6,32 +6,33 @@ const app = document.getElementById("app-container");
 const view = new ManagerView( app, {
     addUser( { firstName, lastName, dateOfBirth, password } ) {
 
-        const ul = document.getElementById("user-list");
+        const userList = document.getElementById("user-list");
         const newUser = new User(  firstName, lastName, dateOfBirth, password );
-        User.saveUser(newUser);
-        ul.insertAdjacentElement( "afterbegin", ManagerView.constructUserListHTML(newUser) );
+        userList.insertAdjacentElement( "afterbegin", ManagerView.constructUserListHTML(newUser) );
 
     },
     removeUser(id) {
 
-        
+        // TODO: Use id of user to find that user in "getAllUsers" list and call "deleteUser"
+        // rethink this approach it feels longwinded
 
     }
 })
 
 
-const john = {
-    firstName: "Dave",
-    lastName: "chappel",
+const obj = {
+    firstName: "Craig",
+    lastName: "David",
     dateOfBirth: new Date(),
-    password: "thetree"
+    password: "jump",
+    id: 2089745
 }
 
-view.addUser( john );
-
-
-
-
+view.addUser(obj)
+view.addUser(obj)
+view.addUser(obj)
+view.addUser(obj)
+view.addUser(obj)
 
 // function constructUser({ firstName, lastName, dateOfBirth }) {
 //     const li = document.createElement("li")
