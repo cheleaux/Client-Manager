@@ -42,7 +42,7 @@ export default class ManagerView {
             if ( !firstNameInp.value || !dobInp.value ) return;
 
             const user = new User( firstNameInp.value, lastNameInp.value, dobInp.value, passwordInp.value );
-            user._passwordCheck() ? this.addUser(user) && User.saveUser(user) : alert("Passwords don't match");
+            user._passwordCheck() ? this._processNewUser(user) : alert("Passwords don't match");
 
         });
 
@@ -73,6 +73,11 @@ export default class ManagerView {
                 </div>
                 `
         return li
+    }
+
+    _processNewUser(user) {
+        this.addUser(user);
+        User.saveUser(user);
     }
 
 }

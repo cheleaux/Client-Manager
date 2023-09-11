@@ -15,35 +15,13 @@ const view = new ManagerView( app, {
 
         const userList = document.getElementById( "user-list" );
         const IndexInUserList = Array.from(userList.children).indexOf( userListItem );
-        User.deleteUser( IndexInUserList )
-
+        userListItem.remove();
+        User.deleteUser( IndexInUserList );
     }
-})
+});
 
-window.onload( User.getAllUsers().forEach( (user) => { ManagerView.addUser(user) } ) );
+const updateUserList = () => {
+    User.getAllUsers().forEach( (user) => { view.addUser(user) } ) 
+}
 
-
-// function constructUser({ firstName, lastName, dateOfBirth }) {
-//     const li = document.createElement("li")
-//     li.classList.add("user")
-//     li.innerHTML = `
-//         <h1 id="full-name">${ firstName + " " + lastName }</h1>
-//         <div class="age-container">
-//             <h2 class="age">${ calcAge(dateOfBirth) }</h2>
-//         </div>
-//         `
-//     return li
-// }
-
-// function calcAge(dateOfBirth) {
-//     const dob = dateOfBirth;
-//     const Bday = +new Date((dob));
-//     if (dob == 0){ console.log("dob is 0") }
-//     return ~~((Date.now() - Bday) / 31557600000);
-// }
-
-// function passwordCheck(user) {
-//     const retypePassword = document.getElementById("re-password");
-//     user.password === retypePassword.value ?
-//      true : alert("Passwords don't match");
-// }
+window.onload = updateUserList
