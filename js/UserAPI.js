@@ -20,13 +20,15 @@ export default class User {
     }
 
     static getAllUsers() {
-        return JSON.parse(localStorage.getItem('users')) || [];
+        const usersArray = localStorage.getItem('users') ?
+        JSON.parse(localStorage.getItem('users')) : [];
+        return usersArray
     }
 
     static saveUser(userToSave) {
         const users = this.getAllUsers();
 
-        userToSave.id = Math.abs(Math.random() * 1000000)
+        userToSave.id = Math.trunc(Math.random() * 1000000)
 
         users.push(userToSave);
         localStorage.setItem("users", JSON.stringify(users))

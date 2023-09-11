@@ -36,21 +36,25 @@ export default class ManagerView {
         const passwordInp = this.root.querySelector("#set-password");
         const userList = this.root.querySelector("#user-list");
         const addUserBtn = this.root.querySelector(".submit-btn");
-        const deleteUserBtn = this.root.querySelector(".user-li-delete");
 
         addUserBtn.addEventListener( "click", () => { 
+
+            if ( !firstNameInp.value || !dobInp.value ) return;
+
             const user = new User( firstNameInp.value, lastNameInp.value, dobInp.value, passwordInp.value );
-            user.passwordcheck() ? this.addUser(user) : alert("Passwords don't match");
+            user._passwordCheck() ? this.addUser(user) && User.saveUser(user) : alert("Passwords don't match");
+
         });
 
         userList.addEventListener( "click", (ev) => {
-            if ( ev.target.classList.contains( "user-li-delete" ) ){    
-                const toDeleteIndex = userList.children.indexOf( ev.target.closest(".user") )
-                console.log( ev.target.closest(".user") ) 
-            }   
+
+            const deleteUserBtn = ev.target.closest( ".user-li-delete" );
+            
+            if (!deleteUserBtn) return;
+
+            this.removeUser(deleteUserBtn.closest(".user"));
+            
         });
-        // ISSUE: if clicks can land on icon (not caught by selector) then event delegation fails
-        // TODO: get the id of user user and call "removeUser" 
 
     }
 
@@ -70,5 +74,6 @@ export default class ManagerView {
                 `
         return li
     }
+
 }
 
