@@ -13,52 +13,14 @@ const view = new ManagerView( app, {
     },
     removeUser( userListItem ) {
 
-        const savedUsers = User.getAllUsers();
         const userList = document.getElementById( "user-list" );
-        const IndexInUserList = Array.from(userList.children).indexOf( userListItem ) + 1;
-        const IndexInSaved = savedUsers.length - userListItemIdx
-        User.removeUser( savedUsers[ IndexInSaved ].id )
+        const IndexInUserList = Array.from(userList.children).indexOf( userListItem );
+        User.deleteUser( IndexInUserList )
 
     }
 })
 
-
-const obj = {
-    firstName: "Craig",
-    lastName: "David",
-    dateOfBirth: new Date(),
-    password: "jump",
-    id: 2089745
-}
-
-const obj2 = {
-    firstName: "bob",
-    lastName: "Zak",
-    dateOfBirth: new Date(),
-    password: "jump",
-    id: 8903448
-}
-
-const obj3 = {
-    firstName: "flynn",
-    lastName: "dylan",
-    dateOfBirth: new Date(),
-    password: "jump",
-    id: 1872356
-}
-
-const obj4 = {
-    firstName: "phabien",
-    lastName: "jakob",
-    dateOfBirth: new Date(),
-    password: "jump",
-    id: 7890645
-}
-
-view.addUser(obj)
-view.addUser(obj2)
-view.addUser(obj3)
-view.addUser(obj4)
+window.onload( User.getAllUsers().forEach( (user) => { ManagerView.addUser(user) } ) );
 
 
 // function constructUser({ firstName, lastName, dateOfBirth }) {

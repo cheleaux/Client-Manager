@@ -26,15 +26,22 @@ export default class User {
     }
 
     static saveUser(userToSave) {
+
         const users = this.getAllUsers();
 
         userToSave.id = Math.trunc(Math.random() * 1000000)
 
         users.push(userToSave);
         localStorage.setItem("users", JSON.stringify(users))
+
     }
     
-    static deleteUser() {
+    static deleteUser( userIndex ) {
+        
+        const savedUsers = this.getAllUsers();
+        const IndexInSaved = savedUsers.length - (userIndex + 1);
+        savedUsers.splice( IndexInSaved, 1 );
+        localStorage.setItem("users", JSON.stringify(savedUsers));
         
     }
 }
