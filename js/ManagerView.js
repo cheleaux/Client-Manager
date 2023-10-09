@@ -4,6 +4,11 @@ export default class ManagerView {
         this.root = root;
         this.addUser = addUser;
         this.removeUser = removeUser;
+        this.page = {
+            height: Math.max(document.body.scrollHeight),
+            mobileMediaQuery: window.matchMedia("(max-width: 900px)"),
+            registerSnapPoint: Math.max(document.body.scrollHeight) / 2
+        };
         this.root.innerHTML = `
                 <article class="form-area">
                     <form>
@@ -29,7 +34,6 @@ export default class ManagerView {
                 </article>
             `
 
-
         const firstNameInp = this.root.querySelector("#first-name");
         const lastNameInp = this.root.querySelector("#last-name");
         const dobInp = this.root.querySelector("#dob");
@@ -37,25 +41,22 @@ export default class ManagerView {
         const userList = this.root.querySelector("#user-list");
         const addUserBtn = this.root.querySelector(".submit-btn");
 
+
         addUserBtn.addEventListener( "click", () => { 
-
             if ( !firstNameInp.value || !dobInp.value ) return;
-
             const user = new User( firstNameInp.value, lastNameInp.value, dobInp.value, passwordInp.value );
             user._passwordCheck() ? this._processNewUser(user) : alert("Passwords don't match");
-
         });
 
         userList.addEventListener( "click", (ev) => {
-
             const deleteUserBtn = ev.target.closest( ".user-li-delete" );
-            
             if (!deleteUserBtn) return;
-
             this.removeUser(deleteUserBtn.closest(".user"));
-            
         });
-
+        
+        if(this.page.mobileMediaQuery.matches){
+            document.addEventListener( "scroll", this._enableScrollSnap.bind(this) )
+        };
     }
 
     static constructUserListHTML(user) {
@@ -78,6 +79,33 @@ export default class ManagerView {
     _processNewUser(user) {
         this.addUser(user);
         User.saveUser(user);
+    }
+
+    _enableScrollSnap() {
+        console.log(window.scrollY);
+        if( this._isViewingForm() ) {
+            console.log("is viewing form")
+            if( window.scrollY > 60 && window.scrollY < 160 ){
+                window.scrollTo(0, this.page.height);
+            }
+        }
+        else if( this._isViewingRegister() ) {
+            const snapHorizonEnd = window.scrollY > this.page.registerSnapPoint - 160;
+            const snapHorizonStart = window.scrollY < this.page.registerSnapPoint - 60;
+            console.log("is viewing register")
+            if( snapHorizonEnd && snapHorizonStart ) {
+                window.scrollTo(0, 0)
+            }
+        }
+    }
+    // while one auto scroll action is being completed, disable the other until completion
+
+    _isViewingForm(){
+       return window.scrollY < 70;
+    }
+    
+    _isViewingRegister(){
+        return window.scrollY < this.page.height && window.scrollY >= (this.page.registerSnapPoint - 70);
     }
 
 }

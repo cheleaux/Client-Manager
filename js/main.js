@@ -25,3 +25,5 @@ const updateUserList = () => {
 }
 
 window.onload = updateUserList
+
+console.log(window.scrollY)
