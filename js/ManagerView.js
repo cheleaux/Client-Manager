@@ -53,10 +53,14 @@ export default class ManagerView {
             if (!deleteUserBtn) return;
             this.removeUser(deleteUserBtn.closest(".user"));
         });
-        
-        if(this.page.mobileMediaQuery.matches){
-            document.addEventListener( "scroll", this._enableScrollSnap.bind(this) )
-        };
+    
+        window.onscroll = () => {
+
+        }
+
+        if( this.page.mobileMediaQuery.matches ){ 
+            let currentScrollPostion = window.scrollY;
+            document.addEventListener( "scroll", this._enableScrollSnap( currentScrollPostion ) ) };
     }
 
     static constructUserListHTML(user) {
@@ -81,34 +85,47 @@ export default class ManagerView {
         User.saveUser(user);
     }
 
-    _enableScrollSnap() {
-        if( this._isViewingForm() && this._isInSnapBoudnary ){ window.scrollTo(0, this.page.height) }
-        else if( this._isViewingRegister() && this._isInSnapBoudnary ){ window.scrollTo(0, 0) }
-        this._DelayOnScrollAction()
-    }
-    // while one auto scroll action is being completed, disable the other until completion
 
-    // TODO: CHANGE EVERYTHING! create one large boundary than upon entry determines your entry point, via scrollY proximity to each side of boundary, and scrolls to the opposite side.
+    // TODO: Change Everything Again! make func to store current scrollY and determine which direction user has scrolled after scroll event
 
-    _isViewingForm(){
-       return window.scrollY < 70;
+    _enableScrollSnap(position){
+        const newPosition = window.scrollY;
+        newPosition > position ? window.scrollTo( 0, this.page.height ) : window.scrollTo( 0, 0 ) ;
     }
+
+    // _enableScrollSnap() {
+    //     if( this._isViewingForm() && this._isInSnapBoudnary ){ 
+    //         window.scrollTo(0, this.page.height)
+    //     }
+    //     else if( this._isViewingRegister() && this._isInSnapBoudnary ){
+    //         window.scrollTo(0, 0)
+    //     }
+    //     this._DelayScroll()
+
+    // }
+
+    // _isViewingForm(){
+    //    return window.scrollY < 70;
+    // }
     
-    _isViewingRegister(){
-        return window.scrollY < this.page.height && window.scrollY >= ((Math.max(document.body.scrollHeight) / 2) - 70);
-    }
+    // _isViewingRegister(){
+    //     return window.scrollY < this.page.height && window.scrollY >= ((Math.max(document.body.scrollHeight) / 2) - 70);
+    // }
 
-    _isInSnapBoudnary(){
-        const snapBoudnaryStart = 60;
-        const snapoundaryEnd = (Math.max(document.body.scrollHeight) / 2) - 60;
-        return window.scrollY > snapBoudnaryStart && window.scrollY < snapoundaryEnd;
-    }
+    // _isInSnapBoudnary(){
+    //     const snapBoudnaryStart = 69;
+    //     const snapoundaryEnd = (Math.max(document.body.scrollHeight) / 2) - 69;
+    //     return window.scrollY > snapBoudnaryStart && window.scrollY < snapoundaryEnd;
+    // }
 
-    _delayOnScrollAction(){
-        const topScroll = window.scrollY || document.documentElement.scrollTop;
-        const leftScroll = window.scrollX || document.documentElement.scrollLeft;
-        window.onscroll = () => {}
-        setTimeout(() => { window.onscroll = () => { window.scrollTo( leftScroll, topScroll ) } }, 500)
-    }
+    // _delayScroll(){
+    //     // const topScroll = window.scrollY || document.documentElement.scrollTop;
+    //     // const leftScroll = window.scrollX || document.documentElement.scrollLeft;
+    //     // window.onscroll = function() {}
+    //     // setTimeout(() => { window.onscroll = () => { window.scrollTo( leftScroll, topScroll ) } }, 1000)
+
+    //     document.removeEventListener( "scroll", this._enableScrollSnap.bind(this) )
+    //     setTimeout( () => {document.addEventListener( "scroll", this._enableScrollSnap.bind(this) )}, 4000 )
+    // }
 }
 
