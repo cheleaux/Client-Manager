@@ -84,23 +84,7 @@ export default class ManagerView {
     _enableScrollSnap() {
         if( this._isViewingForm() && this._isInSnapBoudnary ){ window.scrollTo(0, this.page.height) }
         else if( this._isViewingRegister() && this._isInSnapBoudnary ){ window.scrollTo(0, 0) }
-        this._DelayOnScrollAction
-
-        // const snapBoundary =  ;
-        // if( this._isViewingForm() ) {
-        //     console.log("is viewing form")
-        //     if( window.scrollY > 60 && window.scrollY < 160 ){
-        //         window.scrollTo(0, this.page.height);
-        //     }
-        // }
-        // else if( this._isViewingRegister() ) {
-        //     const snapHorizonEnd = window.scrollY > this.page.registerSnapPoint - 160;
-        //     const snapHorizonStart = window.scrollY < this.page.registerSnapPoint - 60;
-        //     console.log("is viewing register")
-        //     if( snapHorizonEnd && snapHorizonStart ) {
-        //         window.scrollTo(0, 0)
-        //     }
-        // }
+        this._DelayOnScrollAction()
     }
     // while one auto scroll action is being completed, disable the other until completion
 
