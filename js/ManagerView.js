@@ -7,7 +7,7 @@ export default class ManagerView {
         this.page = {
             height: Math.max(document.body.scrollHeight),
             mobileMediaQuery: window.matchMedia("(max-width: 900px)"),
-            registerSnapPoint: Math.max(document.body.scrollHeight) / 2
+            // snapPointBoundary: Math.max(document.body.scrollHeight) / 2
         };
         this.root.innerHTML = `
                 <article class="form-area">
@@ -82,31 +82,49 @@ export default class ManagerView {
     }
 
     _enableScrollSnap() {
-        console.log(window.scrollY);
-        if( this._isViewingForm() ) {
-            console.log("is viewing form")
-            if( window.scrollY > 60 && window.scrollY < 160 ){
-                window.scrollTo(0, this.page.height);
-            }
-        }
-        else if( this._isViewingRegister() ) {
-            const snapHorizonEnd = window.scrollY > this.page.registerSnapPoint - 160;
-            const snapHorizonStart = window.scrollY < this.page.registerSnapPoint - 60;
-            console.log("is viewing register")
-            if( snapHorizonEnd && snapHorizonStart ) {
-                window.scrollTo(0, 0)
-            }
-        }
+        if( this._isViewingForm() && this._isInSnapBoudnary ){ window.scrollTo(0, this.page.height) }
+        else if( this._isViewingRegister() && this._isInSnapBoudnary ){ window.scrollTo(0, 0) }
+        this._DelayOnScrollAction
+
+        // const snapBoundary =  ;
+        // if( this._isViewingForm() ) {
+        //     console.log("is viewing form")
+        //     if( window.scrollY > 60 && window.scrollY < 160 ){
+        //         window.scrollTo(0, this.page.height);
+        //     }
+        // }
+        // else if( this._isViewingRegister() ) {
+        //     const snapHorizonEnd = window.scrollY > this.page.registerSnapPoint - 160;
+        //     const snapHorizonStart = window.scrollY < this.page.registerSnapPoint - 60;
+        //     console.log("is viewing register")
+        //     if( snapHorizonEnd && snapHorizonStart ) {
+        //         window.scrollTo(0, 0)
+        //     }
+        // }
     }
     // while one auto scroll action is being completed, disable the other until completion
+
+    // TODO: CHANGE EVERYTHING! create one large boundary than upon entry determines your entry point, via scrollY proximity to each side of boundary, and scrolls to the opposite side.
 
     _isViewingForm(){
        return window.scrollY < 70;
     }
     
     _isViewingRegister(){
-        return window.scrollY < this.page.height && window.scrollY >= (this.page.registerSnapPoint - 70);
+        return window.scrollY < this.page.height && window.scrollY >= ((Math.max(document.body.scrollHeight) / 2) - 70);
     }
 
+    _isInSnapBoudnary(){
+        const snapBoudnaryStart = 60;
+        const snapoundaryEnd = (Math.max(document.body.scrollHeight) / 2) - 60;
+        return window.scrollY > snapBoudnaryStart && window.scrollY < snapoundaryEnd;
+    }
+
+    _delayOnScrollAction(){
+        const topScroll = window.scrollY || document.documentElement.scrollTop;
+        const leftScroll = window.scrollX || document.documentElement.scrollLeft;
+        window.onscroll = () => {}
+        setTimeout(() => { window.onscroll = () => { window.scrollTo( leftScroll, topScroll ) } }, 500)
+    }
 }
 
