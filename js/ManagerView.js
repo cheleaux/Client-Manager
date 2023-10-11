@@ -27,7 +27,7 @@ export default class ManagerView {
                             <input class="error-field" type="password" name="re-password" id="re-password" required>
                         </div>
                     </form>
-                    <span class="error-msg">Password does not match</span>
+                    <span class="error-msg hidden"></span>
                     <button class="submit-btn">Add User</button>
                 </article>
                 <article class="user-list-area">
@@ -48,10 +48,10 @@ export default class ManagerView {
 
         addUserBtn.addEventListener( "click", () => { 
             if ( !formInputs.firstName.value || !formInputs.dob.value ){ this._errorAlertUser( { errorCode: '001', elementObj: formInputs }); return };
-            if ( !user._passwordCheck() ){ this._errorAlertUser( { errorCode: '002', elementObj: formInputs }); return }
             const user = new User( formInputs.firstName.value, formInputs.lastName.value, formInputs.dob.value, formInputs.password.value );
+            if ( !user._passwordCheck() ){ this._errorAlertUser( { errorCode: '002', elementObj: formInputs }); return }
             this._processNewUser(user);
-            form.reset() 
+            this._resetForm( form, formInputs.errorMessage ) 
         });
 
         userList.addEventListener( "click", (ev) => {
@@ -94,13 +94,14 @@ export default class ManagerView {
     }
 
     _errorAlertUser( { errorCode, elementObj } ){
+        if( elementObj.errorMessage.classList.contains('hidden') ){ elementObj.errorMessage.classList.remove('hidden') };
         elementObj.errorMessage.innerHTML = this._constructErrorMessage( { errorCode, elementObj })
     }
 
     _constructErrorMessage( { errorCode, elementObj } ){
         let errorMessage;
         errorCode === '001' ? errorMessage = `Please fill in ${this._findMissingField( elementObj )}, field(s) required` : // (Code 001) // Missing essential fields
-        errorCode === '002' ? errorMessage = '*Passwords do not match' : // (Code 002) // Passwords do not match
+        errorCode === '002' ? errorMessage = 'Passwords do not match' : // (Code 002) // Passwords do not match
         errorMessage = `Please fill in required fields`; // (N/A) // General error
         return errorMessage
     }
@@ -109,6 +110,12 @@ export default class ManagerView {
         if( !firstName.value && !dob.value ) return `'First Name' and 'Date Of Birth'`;
         if( !firstName.value ) return 'First Name';
         if( !dob.value ) return 'Date Of Birth';
+    }
+
+    _resetForm(form, errorMessage){
+        form.reset();
+        errorMessage.innerHTML = '';
+        errorMessage.classList.toggle('hidden')
     }
 }
 
