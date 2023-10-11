@@ -41,6 +41,27 @@ html {
     color: rgb(27, 27, 27);
   }
 
+/* ---------------------- Utility Classes */
+
+.error-field{
+    background: rgb(118, 74, 74);
+}
+
+.error-field:focus{
+    outline: solid 1px rgb(216, 53, 38);
+    outline-offset: 3px;
+    background-color: rgb(159, 119, 119);
+}
+
+.error-msg{
+    color: rgb(255, 34, 34);
+    font-size: 0.725rem;
+    margin: 0 auto 20px auto;
+    border-top: 2px solid rgb(255, 34, 34);
+    border-bottom: 2px solid rgb(255, 34, 34);
+    padding: 5px 0 4px 0;
+}
+
 /* ------- Main Styles ------- */
 
 body {
@@ -131,6 +152,11 @@ input {
     border-radius: 5px;
     border: none;
     padding: 2px 5px;
+}
+
+input:focus {
+    background-color: rgb(115, 115, 115);
+    outline: none;
 }
 
 .submit-btn {

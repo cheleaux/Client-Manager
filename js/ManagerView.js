@@ -24,9 +24,10 @@ export default class ManagerView {
                             <input type="text" name="last-name" id="last-name" required>
                             <input type="date" class="dob" name="dob" id="dob" required>
                             <input type="password" name="password" id="set-password" required>
-                            <input type="password" name="re-password" id="re-password" required>
+                            <input class="error-field" type="password" name="re-password" id="re-password" required>
                         </div>
                     </form>
+                    <span class="error-msg">Password does not match</span>
                     <button class="submit-btn">Add User</button>
                 </article>
                 <article class="user-list-area">
@@ -82,40 +83,10 @@ export default class ManagerView {
         User.saveUser(user);
     }
 
-
-    // TODO: Change Everything Again! make func to store current scrollY and determine which direction user has scrolled after scroll event -----
-
     _enableScrollSnap(){
         const newPosition = window.scrollY;
         newPosition > this.page.scrollPosition ? window.scrollTo( 0, this.page.height ) :  window.scrollTo( 0, 0 ) ;
         this.page.scrollPosition = newPosition;
     }
-
-    // _enableScrollSnap() {
-    //     if( this._isViewingForm() && this._isInSnapBoudnary ){ 
-    //         window.scrollTo(0, this.page.height)
-    //     }
-    //     else if( this._isViewingRegister() && this._isInSnapBoudnary ){
-    //         window.scrollTo(0, 0)
-    //     }
-    //     this._DelayScroll()
-
-    // }
-
-    // _isViewingForm(){
-    //    return window.scrollY < 70;
-    // }
-    
-    // _isViewingRegister(){
-    //     return window.scrollY < this.page.height && window.scrollY >= ((Math.max(document.body.scrollHeight) / 2) - 70);
-    // }
-
-    // _isInSnapBoudnary(){
-    //     const snapBoudnaryStart = 69;
-    //     const snapoundaryEnd = (Math.max(document.body.scrollHeight) / 2) - 69;
-    //     return window.scrollY > snapBoudnaryStart && window.scrollY < snapoundaryEnd;
-    // }
-
-
 }
 
