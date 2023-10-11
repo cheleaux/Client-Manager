@@ -34,20 +34,22 @@ export default class ManagerView {
                     <ul id="user-list"></ul>
                 </article>
             `
-        const userForm = this.root.querySelector("form");
-        const firstNameInp = this.root.querySelector("#first-name");
-        const lastNameInp = this.root.querySelector("#last-name");
-        const dobInp = this.root.querySelector("#dob");
-        const passwordInp = this.root.querySelector("#set-password");
         const userList = this.root.querySelector("#user-list");
         const addUserBtn = this.root.querySelector(".submit-btn");
+        const form = {
+            formElement: this.root.querySelector("form"),
+            firstNameInp: this.root.querySelector("#first-name"),
+            lastNameInp: this.root.querySelector("#last-name"),
+            dobInp: this.root.querySelector("#dob"),
+            passwordInp: this.root.querySelector("#set-password"),
+        }
 
 
         addUserBtn.addEventListener( "click", () => { 
-            if ( !firstNameInp.value || !dobInp.value ) return;
-            const user = new User( firstNameInp.value, lastNameInp.value, dobInp.value, passwordInp.value );
-            if ( user._passwordCheck() ){ this._processNewUser(user); userForm.reset() }
-            else { alert("Passwords don't match") }
+            if ( !form.firstNameInp.value || !form.dobInp.value ){ this._errorAlertUser( { errorCode: '001' } ); return };
+            if ( !user._passwordCheck() ){ this._errorAlertUser( { errorCode: '002' } ); return }
+            const user = new User( form.firstNameInp.value, form.lastNameInp.value, form.dobInp.value, form.passwordInp.value );
+            this._processNewUser(user); form.formElement.reset() 
         });
 
         userList.addEventListener( "click", (ev) => {
@@ -87,6 +89,17 @@ export default class ManagerView {
         const newPosition = window.scrollY;
         newPosition > this.page.scrollPosition ? window.scrollTo( 0, this.page.height ) :  window.scrollTo( 0, 0 ) ;
         this.page.scrollPosition = newPosition;
+    }
+
+    _errorAlertUser( { errorCode } ){
+        // (Code 001) // Missing essential fields
+        // (Code 002) // Passwords do not match
+        // let errorMessage;
+        // errorCode === '001' ? errorMessage = findMissingField
+        console.log(form)
+    }
+    findMissingField(){
+
     }
 }
 
