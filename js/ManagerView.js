@@ -7,7 +7,7 @@ export default class ManagerView {
         this.page = {
             height: Math.max(document.body.scrollHeight),
             mobileMediaQuery: window.matchMedia("(max-width: 900px)"),
-            // snapPointBoundary: Math.max(document.body.scrollHeight) / 2
+            scrollPosition: window.scrollY
         };
         this.root.innerHTML = `
                 <article class="form-area">
@@ -33,7 +33,7 @@ export default class ManagerView {
                     <ul id="user-list"></ul>
                 </article>
             `
-
+        const userForm = this.root.querySelector("form");
         const firstNameInp = this.root.querySelector("#first-name");
         const lastNameInp = this.root.querySelector("#last-name");
         const dobInp = this.root.querySelector("#dob");
@@ -45,7 +45,8 @@ export default class ManagerView {
         addUserBtn.addEventListener( "click", () => { 
             if ( !firstNameInp.value || !dobInp.value ) return;
             const user = new User( firstNameInp.value, lastNameInp.value, dobInp.value, passwordInp.value );
-            user._passwordCheck() ? this._processNewUser(user) : alert("Passwords don't match");
+            if ( user._passwordCheck() ){ this._processNewUser(user); userForm.reset() }
+            else { alert("Passwords don't match") }
         });
 
         userList.addEventListener( "click", (ev) => {
@@ -54,13 +55,9 @@ export default class ManagerView {
             this.removeUser(deleteUserBtn.closest(".user"));
         });
     
-        window.onscroll = () => {
-
-        }
-
         if( this.page.mobileMediaQuery.matches ){ 
-            let currentScrollPostion = window.scrollY;
-            document.addEventListener( "scroll", this._enableScrollSnap( currentScrollPostion ) ) };
+            document.addEventListener( "scroll", () => { this._enableScrollSnap() } )
+        };
     }
 
     static constructUserListHTML(user) {
@@ -86,11 +83,12 @@ export default class ManagerView {
     }
 
 
-    // TODO: Change Everything Again! make func to store current scrollY and determine which direction user has scrolled after scroll event
+    // TODO: Change Everything Again! make func to store current scrollY and determine which direction user has scrolled after scroll event -----
 
-    _enableScrollSnap(position){
+    _enableScrollSnap(){
         const newPosition = window.scrollY;
-        newPosition > position ? window.scrollTo( 0, this.page.height ) : window.scrollTo( 0, 0 ) ;
+        newPosition > this.page.scrollPosition ? window.scrollTo( 0, this.page.height ) :  window.scrollTo( 0, 0 ) ;
+        this.page.scrollPosition = newPosition;
     }
 
     // _enableScrollSnap() {
@@ -118,14 +116,6 @@ export default class ManagerView {
     //     return window.scrollY > snapBoudnaryStart && window.scrollY < snapoundaryEnd;
     // }
 
-    // _delayScroll(){
-    //     // const topScroll = window.scrollY || document.documentElement.scrollTop;
-    //     // const leftScroll = window.scrollX || document.documentElement.scrollLeft;
-    //     // window.onscroll = function() {}
-    //     // setTimeout(() => { window.onscroll = () => { window.scrollTo( leftScroll, topScroll ) } }, 1000)
 
-    //     document.removeEventListener( "scroll", this._enableScrollSnap.bind(this) )
-    //     setTimeout( () => {document.addEventListener( "scroll", this._enableScrollSnap.bind(this) )}, 4000 )
-    // }
 }
 
