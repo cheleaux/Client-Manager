@@ -42,6 +42,7 @@ export default class ManagerView {
             lastName: this.root.querySelector("#last-name"),
             dob: this.root.querySelector("#dob"),
             password: this.root.querySelector("#set-password"),
+            confirmPassword: this.root.querySelector("#re-password"),
             errorMessage: this.root.querySelector(".error-msg")
         }
 
@@ -95,21 +96,37 @@ export default class ManagerView {
 
     _errorAlertUser( { errorCode, elementObj } ){
         if( elementObj.errorMessage.classList.contains('hidden') ){ elementObj.errorMessage.classList.remove('hidden') };
-        elementObj.errorMessage.innerHTML = this._constructErrorMessage( { errorCode, elementObj })
+        elementObj.errorMessage.innerHTML = this._constructErrorMessage( { errorCode, elementObj });
+        errorCode == '001' ? :
+        errorCode == '002' ? elementObj.confirmPassword.classList.add("error-field"):
     }
 
     _constructErrorMessage( { errorCode, elementObj } ){
         let errorMessage;
-        errorCode === '001' ? errorMessage = `Please fill in ${this._findMissingField( elementObj )}, field(s) required` : // (Code 001) // Missing essential fields
-        errorCode === '002' ? errorMessage = 'Passwords do not match' : // (Code 002) // Passwords do not match
-        errorMessage = `Please fill in required fields`; // (N/A) // General error
+        errorCode == '001' ? errorMessage = `Please fill in ${ this._getFieldNames( this._findMissingRequiredFields( elementObj ) ) }, field(s) required` : // (Code 001) // Missing essential fields
+        errorCode == '002' ? errorMessage = 'Passwords do not match' :                                                                                     // (Code 002) // Passwords do not match
+        errorMessage = ``;                                                                                                                                 // (N/A) // General error
         return errorMessage
     }
 
-    _findMissingField( { firstName, dob } ){
-        if( !firstName.value && !dob.value ) return `'First Name' and 'Date Of Birth'`;
-        if( !firstName.value ) return 'First Name';
-        if( !dob.value ) return 'Date Of Birth';
+    _styleErrorFIeld( { errorCode, elementObj } ){
+        if ( errorCode == '001' ){ field.classList.add("error-field") }
+        else if ( errorCode == '002' ){  }
+    }
+
+    _getFieldNames( missingFields ){
+        if ( missingFields.length > 1 ) return missingFields.join(" and ");
+        return missingFields[0];
+        return 'First Name';
+        return 'Date Of Birth'
+    }
+
+    _findMissingRequiredFields( { firstName, dob } ){
+        let missingFields = [];
+        for(let [fieldName, fieldInp] of Object.entries( { firstName, dob } )) {
+            if( !fieldInp.value ) missingFields += fieldName;
+        }
+        return missingFields
     }
 
     _resetForm(form, errorMessage){
@@ -118,4 +135,3 @@ export default class ManagerView {
         errorMessage.classList.toggle('hidden')
     }
 }
-
