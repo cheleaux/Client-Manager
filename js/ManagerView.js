@@ -36,20 +36,22 @@ export default class ManagerView {
             `
         const userList = this.root.querySelector("#user-list");
         const addUserBtn = this.root.querySelector(".submit-btn");
-        const form = {
-            formElement: this.root.querySelector("form"),
-            firstNameInp: this.root.querySelector("#first-name"),
-            lastNameInp: this.root.querySelector("#last-name"),
-            dobInp: this.root.querySelector("#dob"),
-            passwordInp: this.root.querySelector("#set-password"),
+        const form = this.root.querySelector("form");
+        const formInputs = {
+            firstName: this.root.querySelector("#first-name"),
+            lastName: this.root.querySelector("#last-name"),
+            dob: this.root.querySelector("#dob"),
+            password: this.root.querySelector("#set-password"),
+            errorMessage: this.root.querySelector(".error-msg")
         }
 
 
         addUserBtn.addEventListener( "click", () => { 
-            if ( !form.firstNameInp.value || !form.dobInp.value ){ this._errorAlertUser( { errorCode: '001' } ); return };
-            if ( !user._passwordCheck() ){ this._errorAlertUser( { errorCode: '002' } ); return }
-            const user = new User( form.firstNameInp.value, form.lastNameInp.value, form.dobInp.value, form.passwordInp.value );
-            this._processNewUser(user); form.formElement.reset() 
+            if ( !formInputs.firstName.value || !formInputs.dob.value ){ this._errorAlertUser( { errorCode: '001', elementObj: formInputs }); return };
+            if ( !user._passwordCheck() ){ this._errorAlertUser( { errorCode: '002', elementObj: formInputs }); return }
+            const user = new User( formInputs.firstName.value, formInputs.lastName.value, formInputs.dob.value, formInputs.password.value );
+            this._processNewUser(user);
+            form.reset() 
         });
 
         userList.addEventListener( "click", (ev) => {
@@ -91,15 +93,22 @@ export default class ManagerView {
         this.page.scrollPosition = newPosition;
     }
 
-    _errorAlertUser( { errorCode } ){
-        // (Code 001) // Missing essential fields
-        // (Code 002) // Passwords do not match
-        // let errorMessage;
-        // errorCode === '001' ? errorMessage = findMissingField
-        console.log(form)
+    _errorAlertUser( { errorCode, elementObj } ){
+        elementObj.errorMessage.innerHTML = this._constructErrorMessage( { errorCode, elementObj })
     }
-    findMissingField(){
 
+    _constructErrorMessage( { errorCode, elementObj } ){
+        let errorMessage;
+        errorCode === '001' ? errorMessage = `Please fill in ${this._findMissingField( elementObj )}, field(s) required` : // (Code 001) // Missing essential fields
+        errorCode === '002' ? errorMessage = '*Passwords do not match' : // (Code 002) // Passwords do not match
+        errorMessage = `Please fill in required fields`; // (N/A) // General error
+        return errorMessage
+    }
+
+    _findMissingField( { firstName, dob } ){
+        if( !firstName.value && !dob.value ) return `'First Name' and 'Date Of Birth'`;
+        if( !firstName.value ) return 'First Name';
+        if( !dob.value ) return 'Date Of Birth';
     }
 }
 

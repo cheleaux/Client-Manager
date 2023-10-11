@@ -53,9 +53,15 @@ html {
     background-color: rgb(159, 119, 119);
 }
 
+.hidden{
+    display: none;
+}
+
 .error-msg{
+    max-width: 200px;
     color: rgb(255, 34, 34);
     font-size: 0.725rem;
+    text-align: center;
     margin: 0 auto 20px auto;
     border-top: 2px solid rgb(255, 34, 34);
     border-bottom: 2px solid rgb(255, 34, 34);
