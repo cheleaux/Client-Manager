@@ -96,22 +96,27 @@ export default class ManagerView {
 
     _errorAlertUser( { errorCode, elementObj } ){
         if( elementObj.errorMessage.classList.contains('hidden') ){ elementObj.errorMessage.classList.remove('hidden') };
-        elementObj.errorMessage.innerHTML = this._constructErrorMessage( { errorCode, elementObj });
-        errorCode == '001' ? :
-        errorCode == '002' ? elementObj.confirmPassword.classList.add("error-field"):
+        elementObj.errorMessage.innerHTML = this._constructErrorMessage( { errorCode, elementObj } );
+        errorCode == '001' ? this._styleErrorFields( this._findMissingRequiredFields( elementObj ) ):
+        errorCode == '002' ? this._styleErrorFields( { elements: [ elementObj.confirmPassword ] } ): console.warn('No error code - Could not chosen field for styleErrorField...');
     }
 
     _constructErrorMessage( { errorCode, elementObj } ){
         let errorMessage;
-        errorCode == '001' ? errorMessage = `Please fill in ${ this._getFieldNames( this._findMissingRequiredFields( elementObj ) ) }, field(s) required` : // (Code 001) // Missing essential fields
-        errorCode == '002' ? errorMessage = 'Passwords do not match' :                                                                                     // (Code 002) // Passwords do not match
-        errorMessage = ``;                                                                                                                                 // (N/A) // General error
+        errorCode == '001' ? errorMessage = `Please fill in ${ this._getFieldNames( this._findMissingRequiredFields( elementObj ) ) }, field(s) required` :  // (Code 001) // Missing essential fields
+        errorCode == '002' ? errorMessage = 'Passwords do not match' :  // (Code 002) // Passwords do not match
+        errorMessage = ``;  // (N/A) // General error
         return errorMessage
     }
 
-    _styleErrorFIeld( { errorCode, elementObj } ){
-        if ( errorCode == '001' ){ field.classList.add("error-field") }
-        else if ( errorCode == '002' ){  }
+    _styleErrorFields( { elements } ){
+        this._setDefaultFieldStyles()
+        elements.forEach( element => { element.classList.add( "error-field" ) });
+    }
+
+    _setDefaultFieldStyles(){
+        const fields = Array.from(this.root.querySelector( ".input-area" ).children);
+        fields.forEach( ( element ) => { if( element.classList.contains( "error-field" ) ){ element.classList.remove( "error-field" ) } } )
     }
 
     _getFieldNames( { keys } ){
@@ -136,6 +141,7 @@ export default class ManagerView {
     _resetForm(form, errorMessage){
         form.reset();
         errorMessage.innerHTML = '';
-        errorMessage.classList.toggle('hidden')
+        errorMessage.classList.toggle('hidden');
+        this._setDefaultFieldStyles();
     }
 }
