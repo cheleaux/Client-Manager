@@ -114,17 +114,21 @@ export default class ManagerView {
         else if ( errorCode == '002' ){  }
     }
 
-    _getFieldNames( missingFields ){
-        if ( missingFields.length > 1 ) return missingFields.join(" and ");
-        return missingFields[0];
-        return 'First Name';
-        return 'Date Of Birth'
+    _getFieldNames( { keys } ){
+    const names = [ 'First Name', 'Date Of Birth' ];
+    const nameList = keys.map( key => names.find( name => key.charAt(0) == name.charAt(0).toLowerCase() ))
+    return nameList.length > 1 ? nameList.join(" and ") : nameList[0];
     }
 
     _findMissingRequiredFields( { firstName, dob } ){
-        let missingFields = [];
+        const missingFields = {};
+        missingFields.keys = [];
+        missingFields.elements = [];
         for(let [fieldName, fieldInp] of Object.entries( { firstName, dob } )) {
-            if( !fieldInp.value ) missingFields += fieldName;
+            if( !fieldInp.value ){
+                missingFields.keys.push( fieldName );
+                missingFields.elements.push( fieldInp )
+            }
         }
         return missingFields
     }
