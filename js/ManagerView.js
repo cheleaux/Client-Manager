@@ -24,7 +24,7 @@ export default class ManagerView {
                             <input type="text" name="last-name" id="last-name" required>
                             <input type="date" class="dob" name="dob" id="dob" required>
                             <input type="password" name="password" id="set-password" required>
-                            <input class="error-field" type="password" name="re-password" id="re-password" required>
+                            <input type="password" name="re-password" id="re-password" required>
                         </div>
                     </form>
                     <span class="error-msg hidden"></span>
